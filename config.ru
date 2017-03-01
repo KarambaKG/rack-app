@@ -13,11 +13,7 @@ require 'bootstrap-sass'
 
 class App < Rack::App
   extend Rack::App::FrontEnd
-
- 
-
-desc 'health check endpoint'
-get '/' do 
+get '/' do
   ex = Maksim.detect(Massive.new("en","sms","23323232","your_code_is_3333"))
   end
 get '/test' do
@@ -28,15 +24,19 @@ end
   ex = Maksim.detect(Massive.new(arr[0],arr[1],arr[2],arr[3]))
   # example: http://localhost:9292/test/?lang=ru&type=sms&phone_number=privet&code=uy
 end
-get '/some_url' do
-    render '/index.html.erb'
-end
+
 get '/admin' do
-  render '/admin.html.erb'
+  render '/views/admin.html.erb'
 end
+
 get '/sms' do
-  render '/sms.html.erb'
+  render '/views/sms.html.erb'
 end
+
+get '/email' do
+  render '/views/email.html.erb'
+end
+
 get '/edit' do
   render '/edit_input.html.erb'
 end
