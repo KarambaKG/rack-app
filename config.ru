@@ -3,64 +3,48 @@ require 'bundler/setup'
 require 'rack'
 require 'json'
 require 'net/http'
+require 'uri'
 require 'rack/app'
+require './massive'
+require './maksim'
 require 'erb'
-require 'byebug'
 require 'rack/app/front_end'
 require 'bootstrap-sass'
 
 class App < Rack::App
   extend Rack::App::FrontEnd
 
-  get '/index' do
-    render 'views/index.html.erb'
+ 
+
+desc 'health check endpoint'
+get '/' do 
+  ex = Maksim.detect(Massive.new("en","sms","23323232","your_code_is_3333"))
   end
+get '/test' do
+  arr =[]
+  params.each do |k,v|
+    arr<<v
+end
+  ex = Maksim.detect(Massive.new(arr[0],arr[1],arr[2],arr[3]))
+  # example: http://localhost:9292/test/?lang=ru&type=sms&phone_number=privet&code=uy
+end
+get '/some_url' do
+    render '/index.html.erb'
+end
+get '/admin' do
+  render '/admin.html.erb'
+end
+get '/sms' do
+  render '/sms.html.erb'
+end
+get '/edit' do
+  render '/edit_input.html.erb'
+end
 
-  get '/sms' do
-    render '/sms.html.erb'
-  end
-
-  get '/email' do
-    render '/email.html.erb'
-  end
-
-  get '/' do
-    array = [{
-              "lang" => "ru",
-              "type" => "sms",
-              "phone_number" => "0555121212",
-              "code" => 'RU'
-            },
-            {
-              "lang" => "en",
-              "type" => "sms",
-              "phone_number" => "0555121212",
-              "code" => 'EN'
-            }]
-    a = rand(0..array.size-1)
-    result=array[a]
-
-    def detect(tempHash)
-      tip = tempHash["type"]
-      lang = tempHash["lang"]
-      temp = File.read('/home/maxim/RubymineProjects/server/sms/'"#{tip}_#{lang}.json")
-      qw = tempHash["code"]
-      temp1 = eval(temp)
-      temp1.each do |k,v|
-        temp1[k] = v % ["#{qw}"]
-      end
-      lastHash = tempHash.merge(temp1)
-      file = File.open("result_#{tip}_#{lang}.json", "w"){ |f| f << lastHash.to_json }
-      file.close
-      return lastHash['message']
-    end
-    p detect(result)
-
-  end
-
-  get '/hello' do
-    File.read('/home/maxim/RubymineProjects/server/sms/sms_ru.json')
-  end
+get '/new' do
+ file =File.read("sms_en.json")
+end
 
 end
+
 run App
