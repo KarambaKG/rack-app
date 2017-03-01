@@ -13,7 +13,7 @@ class App < Rack::App
   extend Rack::App::FrontEnd
 
   get '/index' do
-    render 'index.html.erb'
+    render 'views/index.html.erb'
   end
 
   get '/sms' do
@@ -25,19 +25,18 @@ class App < Rack::App
   end
 
   get '/' do
-    array = [
-        sms_ru={
-            "lang" => "ru",
-            "type" => "sms",
-            "phone_number" => "0555121212",
-            "code" => 'RU'
-        },
-        sms_en={
-            "lang" => "en",
-            "type" => "sms",
-            "phone_number" => "0555121212",
-            "code" => 'EN'
-        }]
+    array = [{
+              "lang" => "ru",
+              "type" => "sms",
+              "phone_number" => "0555121212",
+              "code" => 'RU'
+            },
+            {
+              "lang" => "en",
+              "type" => "sms",
+              "phone_number" => "0555121212",
+              "code" => 'EN'
+            }]
     a = rand(0..array.size-1)
     result=array[a]
 
@@ -64,5 +63,4 @@ class App < Rack::App
   end
 
 end
-
 run App
