@@ -29,11 +29,11 @@ get '/admin' do
   render '/views/admin.html.erb'
 end
 
-get '/sms' do
+get '/views/sms' do
   render '/views/sms.html.erb'
 end
 
-get '/email' do
+get '/views/email' do
   render '/views/email.html.erb'
 end
 
