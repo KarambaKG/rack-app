@@ -24,17 +24,12 @@ end
   ex = Maksim.detect(Massive.new(arr[0],arr[1],arr[2],arr[3]))
   # example: http://localhost:9292/test/?lang=ru&type=sms&phone_number=privet&code=uy
 end
-
 get '/admin' do
   render '/views/admin.html.erb'
 end
-
-get '/views/sms' do
+get '/sms' do
+  @templates = Dir["sms/*.json"].select{ |f| File.file? f }.map{ |f| File.basename f ,'.json'}
   render '/views/sms.html.erb'
-end
-
-get '/views/email' do
-  render '/views/email.html.erb'
 end
 
 get '/edit' do
