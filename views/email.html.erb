@@ -6,8 +6,11 @@
 </head>
 <body>
 <h1>Hello email!</h1>
-	<% @templates.each do |f| %>
-	<%= f %> <br>
+	<div class="btn btn-success"><a href="/new_template">add new template</a></div>
+	<% @templates.each do |file| %>
+	<%= file %> <br>
+	<li><div class="btn btn-success"><a href="/show/<%= file %>">show</a></div></li>
+	<li><div class="btn btn-success"><a href="/delete/<%= file %>">delete</a></div></li
 	<%end%>
 	
 </body>

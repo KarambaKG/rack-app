@@ -45,8 +45,8 @@ end
   end
 
   get '/show/:id' do
-    @file = File.read( File.join(ROOT_PATH,"sms","#{params['id']}.json") )
-    
+    directory = params['id'].split('_')
+    @file = File.read( File.join(ROOT_PATH,"#{directory.first}","#{params['id']}.json") )
         #render '/views/show.html.erb'
   end
 
@@ -58,26 +58,35 @@ end
    file =File.read("sms_en.json")
   end
 
-end
-payload do
-   parser do
-     accept :json, :www_form_urlencoded
+
+  payload do
+     parser do
+       accept :json, :www_form_urlencoded
+     end
    end
- end
- use Rack::Auth::Basic do |username, password|
-  username == 'maksim'
-  password == 'secret'
-end
-post '/create' do
-  @message = payload['message']
-  @typ = payload['typ']
-  @lang = payload['lang']
+   use Rack::Auth::Basic do |username, password|
+    username == 'maksim'
+    password == 'secret'
+  end
 
+  post '/create' do
+    @message = payload['message']
+    @typ = payload['typ']
+    @lang = payload['lang']
+    direc = "#{@typ.to_s}_#{@lang.to_s}"
 
-  file = File.new("#{@typ}/#{@typ}_#{@lang}.json","w+")
-  file<<@message.to_json
-  file.close
-end
+    file = File.new("#{@typ}/#{@typ}_#{@lang}.json","w+")
+    file<<@message.to_json
+    file.close
+    redirect_to '/'
+  end
+
+  get '/delete/:id' do
+    directory = params['id'].split('_')
+    @file = File.delete( File.join(ROOT_PATH,"#{directory.first}","#{params['id']}.json"))
+    redirect_to '/'
+  end
+
 
 end
 
