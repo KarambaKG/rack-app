@@ -16,14 +16,14 @@ ROOT_PATH = Dir.pwd
 
 class App < Rack::App
   extend Rack::App::FrontEnd
+
   get '/' do
     render '/views/index.html.erb'
   end
 
-
-get '/new_template' do
-  render '/views/new_template.html.erb'
-end
+  get '/new_template' do
+    render '/views/new_template.html.erb'
+  end
 
   get '/test' do
     arr =[]
@@ -45,9 +45,17 @@ end
   end
 
   get '/show/:id' do
-    directory = params['id'].split('_')
+    directory=params['id'].split('_')
     @file = File.read( File.join(ROOT_PATH,"#{directory.first}","#{params['id']}.json") )
-        #render '/views/show.html.erb'
+
+  end
+
+  get '/delete/:id' do
+    filename =params['id'].to_s
+    directory=params['id'].split('_')
+    file= File.delete("#{directory.first.to_s}/#{filename}.json") 
+    redirect_to '/'
+
   end
 
   get '/edit' do
@@ -55,37 +63,36 @@ end
   end
 
   get '/new' do
-   file =File.read("sms_en.json")
+   # file =File.read("sms_en.json")
   end
 
-
-  payload do
-     parser do
-       accept :json, :www_form_urlencoded
-     end
-   end
-   use Rack::Auth::Basic do |username, password|
-    username == 'maksim'
-    password == 'secret'
-  end
-
-  post '/create' do
-    @message = payload['message']
-    @typ = payload['typ']
-    @lang = payload['lang']
-    direc = "#{@typ.to_s}_#{@lang.to_s}"
-
-    file = File.new("#{@typ}/#{@typ}_#{@lang}.json","w+")
-    file<<@message.to_json
-    file.close
-    redirect_to '/'
-  end
 
   get '/delete/:id' do
     directory = params['id'].split('_')
     @file = File.delete( File.join(ROOT_PATH,"#{directory.first}","#{params['id']}.json"))
     redirect_to '/'
   end
+
+payload do
+   parser do
+     accept :json, :www_form_urlencoded
+   end
+ end
+
+ use Rack::Auth::Basic do |username, password|
+  username == 'maksim'
+  password == 'secret'
+end
+post '/create' do
+  @message = payload['message'].to_s
+  @typ = payload['typ']
+  @lang = payload['lang']
+  
+
+  file = File.new("#{@typ}/#{@typ}_#{@lang}.json","w+")
+  file<<@message
+  file.close
+end
 
 
 end
