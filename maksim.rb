@@ -14,7 +14,7 @@ class Maksim
    # a = rand(0..1)
    #     @result = array[a]
        def self.detect(tempHash)
-               tip = tempHash.type
+               tip = tempHash.typ
                lang = tempHash.lang
                temp = File.read("#{tip}/#{tip}_#{lang}.json")
                qw = tempHash.code

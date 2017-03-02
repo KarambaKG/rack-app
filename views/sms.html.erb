@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>Hello sms!</h1>
+	<div class="btn btn-success"><a href="/new_template">add new template</a></div>
 	<% @templates.each do |file| %>
 	<%= file %> <br>
 	<li><div class="btn btn-success"><a href="/show/<%= file %>">show</a></div></li>

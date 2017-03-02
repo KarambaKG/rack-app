@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 require 'rack'
 require 'json'
+require 'byebug'
 require 'net/http'
 require 'uri'
 require 'rack/app'
@@ -18,6 +19,11 @@ class App < Rack::App
   get '/' do
     render '/views/index.html.erb'
   end
+
+
+get '/new_template' do
+  render '/views/new_template.html.erb'
+end
 
   get '/test' do
     arr =[]
@@ -53,10 +59,26 @@ class App < Rack::App
   end
 
 end
-
-use Rack::Auth::Basic do |username, password|
+payload do
+   parser do
+     accept :json, :www_form_urlencoded
+   end
+ end
+ use Rack::Auth::Basic do |username, password|
   username == 'maksim'
   password == 'secret'
+end
+post '/create' do
+  @message = payload['message']
+  @typ = payload['typ']
+  @lang = payload['lang']
+
+
+  file = File.new("#{@typ}/#{@typ}_#{@lang}.json","w+")
+  file<<@message.to_json
+  file.close
+end
+
 end
 
 run App
