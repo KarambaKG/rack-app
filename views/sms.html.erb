@@ -6,10 +6,11 @@
 </head>
 <body>
 <h1>Hello sms!</h1>
-	<% @templates.each do |f| %>
-	<%= f %> <br>
+	<% @templates.each do |file| %>
+	<%= file %> <br>
+	<li><div class="btn btn-success"><a href="/show/<%= file %>">show</a></div></li>
 	<%end%>
-	
+
 </body>
 </html>
 
