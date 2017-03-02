@@ -2,16 +2,84 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>Sms Templates</title>
 </head>
 <body>
-<h1>Hello sms!</h1>
-	<div class="btn btn-success"><a href="/new_template">add new template</a></div>
-	<% @templates.each do |file| %>
-	<%= file %> <br>
-	<li><div class="btn btn-success"><a href="/show/<%= file %>">show</a></div></li>
-	<li><div class="btn btn-success"><a href="/delete/<%= file %>">delete</a></div></li>
-	<%end%>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    .row.content {height: 650px}
+
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }
+  </style>
+  <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/">На Главную</a></li>
+        <li><a href='/email'>Email</a></li>
+      </ul>
+<!--       <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul> -->
+    </div>
+  </div>
+</nav> 
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav">
+    </div>
+    <div class="col-sm-8 text-left"> 
+      <h1>Добро пожаловать!</h1>
+	      <p>Окно редактирования SMS содержит следующие поля и настройки: Текст сообщения - содержание сообщения, а так же можно удалять сообщения.</p>
+	      <hr>
+			<div class="col-sm-6 col-md-6 ">
+				<div class="btn btn-success"><a href="/new_template">add new template</a></div>
+					<div class="field">
+						<% @templates.each do |file| %>
+						<%= file %> <br>
+							<div class="btn btn-info"><a href="/show/<%= file %>">show</a></div>
+							<div class="btn btn-danger btn-sm"><a href="/delete/<%= file %>">delete</a></div><br>
+						<%end%>
+					</div>   
+	    </div>
+	  </div>  
+  </div>
+</div>
+
+<footer class="container-fluid text-center">
+  <p>SMS Templates</p>
+</footer>
 
 </body>
 </html>
