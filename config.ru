@@ -70,7 +70,7 @@ class App < Rack::App
   get '/delete/:id' do
     directory = params['id'].split('_')
     @file = File.delete( File.join(ROOT_PATH,"#{directory.first}","#{params['id']}.json"))
-    redirect_to '/'
+    redirect_to request.env["HTTP_REFERER"]
   end
 
 payload do
@@ -92,6 +92,7 @@ post '/create' do
   file = File.new("#{@typ}/#{@typ}_#{@lang}.json","w+")
   file<<@message
   file.close
+  redirect_to "/#{@typ}"
 end
 
 
