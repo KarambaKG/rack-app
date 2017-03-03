@@ -6,8 +6,8 @@ require 'byebug'
 require 'net/http'
 require 'uri'
 require 'rack/app'
-require './massive'
-require './maksim'
+require './template'
+require './send_message'
 require 'erb'
 require 'rack/app/front_end'
 require 'bootstrap-sass'
@@ -31,31 +31,19 @@ class App < Rack::App
     params.each do |k,v|
       arr<<v
     end
-    ex = Maksim.detect(Massive.new(arr[0],arr[1],arr[2],arr[3]))
+    ex = SendMessage.detect(Template.new(arr[0],arr[1],arr[2],arr[3]))
     # example: http://localhost:9292/test/?lang=ru&type=sms&phone_number=privet&code=uy
   end
 
-  get '/sms' do
-    @templates = Dir["sms/*.json"].select{ |f| File.file? f }.map{ |f| File.basename f ,'.json'}
-    render '/views/sms.html.erb'
-  end
-
-  get '/email' do
-    @templates = Dir["email/*.json"].select{ |f| File.file? f }.map{ |f| File.basename f ,'.json'}
-    render '/views/email.html.erb'
+  get '/templates' do
+    @templates = Dir["templates/*.json"].select{ |f| File.file? f }.map{ |f| File.basename f ,'.json'}
+    # @sms = @templates.select{|elem| elem.include?('sms')}
+    render '/views/templates.html.erb'
   end
 
   get '/show/:id' do
-    directory=params['id'].split('_')
-    @file = File.read( File.join(ROOT_PATH,"#{directory.first}","#{params['id']}.json") )
-
-  end
-
-  get '/delete/:id' do
-    filename =params['id'].to_s
-    directory=params['id'].split('_')
-    file= File.delete("#{directory.first.to_s}/#{filename}.json") 
-    redirect_to '/'
+    directory = params['id'].split('_')
+    @file = File.read( File.join(ROOT_PATH,"templates","#{params['id']}.json") )
 
   end
 
@@ -70,7 +58,7 @@ class App < Rack::App
 
   get '/delete/:id' do
     directory = params['id'].split('_')
-    @file = File.delete( File.join(ROOT_PATH,"#{directory.first}","#{params['id']}.json"))
+    @file = File.delete( File.join(ROOT_PATH,"templates","#{params['id']}.json"))
     redirect_to request.env["HTTP_REFERER"]
   end
 
@@ -80,20 +68,20 @@ payload do
    end
  end
 
- use Rack::Auth::Basic do |username, password|
-  username == 'maksim'
-  password == 'secret'
-end
+#  use Rack::Auth::Basic do |username, password|
+#   username == 'maksim'
+#   password == 'secret'
+# end
 post '/create' do
   @message = payload['message'].to_s
   @typ = payload['typ']
   @lang = payload['lang']
   
 
-  file = File.new("#{@typ}/#{@typ}_#{@lang}.json","w+")
+  file = File.new("templates/#{@typ}_#{@lang}.json","w+")
   file<<@message
   file.close
-  redirect_to "/#{@typ}"
+  redirect_to "/templates"
 end
 
 

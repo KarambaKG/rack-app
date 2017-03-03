@@ -1,7 +1,7 @@
 require 'rack'
 require 'json'
-require './massive'
-class Maksim
+require './template'
+class SendMessage
 
    def initialize(result)
        @result = result
@@ -9,7 +9,7 @@ class Maksim
    def self.detect(tempHash)
            tip = tempHash.typ
            lang = tempHash.lang
-           temp = File.read("#{tip}/#{tip}_#{lang}.json")
+           temp = File.read("templates/#{tip}_#{lang}.json")
            qw = tempHash.code
            temp1 = JSON.parse(temp)
            temp1.each do |k,v|        
