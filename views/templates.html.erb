@@ -67,14 +67,14 @@
 
 			  <div class="btn btn-success"><a href="/new_template">add new template</a></div>
         <div id="add_template_type">
-          <div class="btn btn-info"><a href="/templates/sms">sms_templates</a></div>
-          <div class="btn btn-info"><a href="/templates/email">email_templates</a></div>
         </div>
         <div class="field">
 					<% @templates.each do |file| %>
-					<%= file %> <br>
+					<%= file %>
+          <% item=file.split('_').first%> <br>
 						<div class="btn btn-info"><a href="/show/<%= file %>">show</a></div>
-						<div class="btn btn-danger btn-sm"><a href="/delete/<%= file %>">delete</a></div><br>
+						<div class="btn btn-danger btn-sm"><a href="/delete/<%= file %>">delete</a></div>
+            <div class="btn btn-info"><a href="/templates/<%= item %>">sort by <%="#{item}"%></a></div><br>
 					<%end%>
 				</div>   
 	    </div>

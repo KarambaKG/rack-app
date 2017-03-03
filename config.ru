@@ -44,8 +44,8 @@ class App < Rack::App
   end
 
   get '/templates/:id' do 
-    directory=params['id'].split('_')
-    @templates = Dir["templates/#{directory.first}_*.json"].select{ |f| File.file? f }.map{ |f| File.basename f ,'.json'}
+    directory=params['id']
+    @templates = Dir["templates/#{directory}_*.json"].select{ |f| File.file? f }.map{ |f| File.basename f ,'.json'}
     render '/views/templates.html.erb'
   end
 
