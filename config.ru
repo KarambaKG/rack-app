@@ -26,6 +26,15 @@ class App < Rack::App
     render '/views/new_template.html.erb'
   end
 
+  get '/edit_template/:id' do
+    @qwqw = params['id'].split('_')
+    @typ = @qwqw.first
+    @lang = @qwqw.last
+    @fparams = File.read("templates/#{@typ}_#{@lang}.json")
+
+    render '/views/edit_template.html.erb'
+  end
+
   get '/test' do
     arr =[]
     params.each do |k,v|
@@ -63,8 +72,15 @@ class App < Rack::App
 
   end
 
-  get '/edit' do
-    render '/edit_input.html.erb'
+
+  post '/edit' do
+    @typ = payload['typ']
+    @lang = payload['lang']
+    @fparams = payload['message'].to_s
+    file = File.new("templates/#{@typ}_#{@lang}.json","w+")
+    file<<@fparams
+    file.close
+    redirect_to "/templates"  
   end
 
   get '/new' do
@@ -88,11 +104,10 @@ payload do
   username == 'maksim'
   password == 'secret'
 end
-post '/create' do
-  @message = payload['message'].to_s
+post '/create' do 
   @typ = payload['typ']
   @lang = payload['lang']
-
+  @message = payload['message'].to_s
     unless File.exist?("templates/#{@typ}_#{@lang}.json")
     file = File.new("templates/#{@typ}_#{@lang}.json","w+")
     file<<@message

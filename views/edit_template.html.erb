@@ -48,39 +48,38 @@
         <li class="active"><a href='/'>На главную</a></li>
         <li class="active"><a href='/templates'>Temlates</a></li>        
       </ul>
-<!--       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-      </ul> -->
     </div>
   </div>
 </nav>
   <div class="container">
-  	<form action="/create" method="post" data-success="New template created!!!" class="form-horizontal">
+  <div>
+  </div>
+  	<form action="/edit" method="post" data-success="edit template created!!!" class="form-horizontal">
       
       <div class="form-group">
       <label class="control-label col-sm-2" for="type">Template type:</label>
         <div class="col-sm-4">
-          <input type="text" name="typ" class="form-control" placeholder="Enter type">
+          <input type="text" name="typ" class="form-control" placeholder="Enter type" value="<%=@typ%>">
         </div>
       </div>
 
       <div class="form-group">
       <label class="control-label col-sm-2" for="type">Template language:</label>
         <div class="col-sm-4">
-          <input type="text" name="lang" class="form-control" placeholder="Enter language">
+          <input type="text" name="lang" class="form-control" placeholder="Enter language" value="<%=@lang%>">
         </div>
       </div>
 
       <div class="form-group">
       <label class="control-label col-sm-2" for="type">Template massage:</label>
         <div class="col-sm-4">
-          <input type="text" name="message" class="form-control" placeholder="Enter message">
+          <input type="text" name="message" class="form-control" placeholder="Enter message" value="<%=@fparams%>">
         </div>
       </div>
 
     <h4>template example: {"message" : "OpenWallet. - confirmation code  -%s do not share this code "} <br></h4> 
     
-    <input class="btn btn-success" type="submit" value="Save Temlate">
+    <input class="btn btn-success" type="submit" value="Update Temlate">
         
   	</form>
   </div>
