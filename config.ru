@@ -12,6 +12,7 @@ require 'erb'
 require 'rack/app/front_end'
 require 'bootstrap-sass'
 
+
 ROOT_PATH = Dir.pwd
 
 class App < Rack::App
