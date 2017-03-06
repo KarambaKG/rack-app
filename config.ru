@@ -22,7 +22,6 @@ class App < Rack::App
   end
 
   get '/new_template' do
-
     render '/views/new_template.html.erb'
   end
 
@@ -72,22 +71,34 @@ class App < Rack::App
   end
 
   get '/edit_template/:id' do
-    @edit_params = params['id'].split('_')
-    @typ = @edit_params.first
-    @lang = @edit_params.last
-    @file_params = File.read("templates/#{@typ}_#{@lang}.json")
-    # @file_params.close
+
+    @qwqw = params['id'].split('_')
+    @typ = @qwqw.first
+    @lang = @qwqw.last
+    @old_name = params['id']
+    @fparams = File.read("templates/#{@typ}_#{@lang}.json")
+    # @fparams = JSON.parse(@fparams).to_s
+    
+    # @fparams = @fparams.to_json# @fparams = JSON.parse(file)
     render '/views/edit_template.html.erb'
   end
 
+
   post '/edit' do
+    @old_name = payload['old_name'].to_s
     @typ = payload['typ']
     @lang = payload['lang']
-    @file_params = payload['message'].to_s
-    file = File.new("templates/#{@typ}_#{@lang}.json","w+")
-    file << @file_params
-    file.close
-    redirect_to "/templates"  
+
+    @fparams = payload['message'].to_s
+    if File.exist?("templates/#{@typ}_#{@lang}.json")
+    file = File.rename("templates/#{@old_name}.json","templates/#{@typ}_#{@lang}.json") 
+    file2 = File.open("templates/#{@typ}_#{@lang}.json","w")
+    file2.write(@fparams)
+    file2.close
+    redirect_to "/templates"
+    else
+      redirect_to request.env["HTTP_REFERER"]
+    end 
   end
 
   get '/new' do
@@ -106,19 +117,26 @@ class App < Rack::App
      end
    end
 
-  post '/create' do 
-    @typ = payload['typ']
-    @lang = payload['lang']
-    @message = payload['message'].to_s
-      unless File.exist?("templates/#{@typ}_#{@lang}.json")
-      file = File.new("templates/#{@typ}_#{@lang}.json","w+")
-      file << @message
-      file.close
-      redirect_to "/templates"  
-      else
-         redirect_to request.env["HTTP_REFERER"]
-      end
-  end
+
+use Rack::Auth::Basic do |username, password|
+  username == 'maksim'
+  password == 'secret'
+end
+post '/create' do 
+  @typ = payload['typ']
+  @lang = payload['lang']
+  @message = payload['message'].to_s
+    unless File.exist?("templates/#{@typ}_#{@lang}.json")
+    file = File.new("templates/#{@typ}_#{@lang}.json","w+")
+    file<<@message
+    file.close
+    redirect_to "/templates"  
+    else
+       redirect_to request.env["HTTP_REFERER"]
+    end
+
+end
+
 end
 
 run App
