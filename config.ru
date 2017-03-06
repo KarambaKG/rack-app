@@ -26,15 +26,6 @@ class App < Rack::App
     render '/views/new_template.html.erb'
   end
 
-  get '/edit_template/:id' do
-    @qwqw = params['id'].split('_')
-    @typ = @qwqw.first
-    @lang = @qwqw.last
-    @fparams = File.read("templates/#{@typ}_#{@lang}.json")
-
-    render '/views/edit_template.html.erb'
-  end
-
   get '/test' do
     arr =[]
     params.each do |k,v|
@@ -45,7 +36,6 @@ class App < Rack::App
   end
 
   get '/templates' do
-
     @templates = Dir["templates/*.json"].select{ |f| File.file? f }.map{ |f| File.basename f ,'.json'}
     @template_sort = Dir["templates/*.json"].select{ |f| File.file? f }.map{ |f| File.basename f ,'.json'}
     # @templates = @templates.select{|x| x.include?("#{sms}")}
@@ -57,8 +47,7 @@ class App < Rack::App
     render '/views/templates.html.erb'
   end
 
-  get '/templates/:id' do 
-    
+  get '/templates/:id' do     
     directory=params['id']
     @templates = Dir["templates/#{directory}_*.json"].select{ |f| File.file? f }.map{ |f| File.basename f ,'.json'}
     @template_sort = Dir["templates/*.json"].select{ |f| File.file? f }.map{ |f| File.basename f ,'.json'}  
@@ -71,7 +60,6 @@ class App < Rack::App
   end
 
   get '/show/:id' do
-
     @file = File.read( File.join(ROOT_PATH,"templates","#{params['id']}.json") )
 
   end
@@ -81,16 +69,23 @@ class App < Rack::App
     directory=params['id'].split('_')
     file= File.delete("templates/#{filename}.json") 
     redirect_to '/'
-
   end
 
+  get '/edit_template/:id' do
+    @edit_params = params['id'].split('_')
+    @typ = @edit_params.first
+    @lang = @edit_params.last
+    @file_params = File.read("templates/#{@typ}_#{@lang}.json")
+    # @file_params.close
+    render '/views/edit_template.html.erb'
+  end
 
   post '/edit' do
     @typ = payload['typ']
     @lang = payload['lang']
-    @fparams = payload['message'].to_s
+    @file_params = payload['message'].to_s
     file = File.new("templates/#{@typ}_#{@lang}.json","w+")
-    file<<@fparams
+    file << @file_params
     file.close
     redirect_to "/templates"  
   end
@@ -99,37 +94,31 @@ class App < Rack::App
    # file =File.read("sms_en.json")
   end
 
-
   get '/delete/:id' do
     directory = params['id'].split('_')
     @file = File.delete( File.join(ROOT_PATH,"templates","#{params['id']}.json"))
     redirect_to request.env["HTTP_REFERER"]
   end
 
-payload do
-   parser do
-     accept :json, :www_form_urlencoded
+  payload do
+     parser do
+       accept :json, :www_form_urlencoded
+     end
    end
- end
 
- use Rack::Auth::Basic do |username, password|
-  username == 'maksim'
-  password == 'secret'
-end
-post '/create' do 
-  @typ = payload['typ']
-  @lang = payload['lang']
-  @message = payload['message'].to_s
-    unless File.exist?("templates/#{@typ}_#{@lang}.json")
-    file = File.new("templates/#{@typ}_#{@lang}.json","w+")
-    file<<@message
-    file.close
-    redirect_to "/templates"  
-    else
-       redirect_to request.env["HTTP_REFERER"]
-    end
-
-end
+  post '/create' do 
+    @typ = payload['typ']
+    @lang = payload['lang']
+    @message = payload['message'].to_s
+      unless File.exist?("templates/#{@typ}_#{@lang}.json")
+      file = File.new("templates/#{@typ}_#{@lang}.json","w+")
+      file << @message
+      file.close
+      redirect_to "/templates"  
+      else
+         redirect_to request.env["HTTP_REFERER"]
+      end
+  end
 end
 
 run App
