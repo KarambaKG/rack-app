@@ -47,14 +47,26 @@ class App < Rack::App
   get '/templates' do
 
     @templates = Dir["templates/*.json"].select{ |f| File.file? f }.map{ |f| File.basename f ,'.json'}
+    @template_sort = Dir["templates/*.json"].select{ |f| File.file? f }.map{ |f| File.basename f ,'.json'}
     # @templates = @templates.select{|x| x.include?("#{sms}")}
-
+    @sort=[]
+    @template_sort.each do |f|
+      item=f.split('_').first
+      @sort.push(item)
+     end
     render '/views/templates.html.erb'
   end
 
   get '/templates/:id' do 
+    
     directory=params['id']
     @templates = Dir["templates/#{directory}_*.json"].select{ |f| File.file? f }.map{ |f| File.basename f ,'.json'}
+    @template_sort = Dir["templates/*.json"].select{ |f| File.file? f }.map{ |f| File.basename f ,'.json'}  
+    @sort=[]
+    @template_sort.each do |f|
+      item=f.split('_').first
+      @sort.push(item)
+     end
     render '/views/templates.html.erb'
   end
 
