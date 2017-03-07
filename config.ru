@@ -31,7 +31,7 @@ class App < Rack::App
       arr<<v
     end
     ex = SendMessage.detect(Template.new(arr[0],arr[1],arr[2],arr[3]))
-    # example: http://localhost:9292/test/?lang=ru&type=sms&phone_number=privet&code=uy
+    # example: http://localhost:9393/test/?lang=ru&type=sms&phone_number=privet&code=uy
   end
 
   get '/templates' do
@@ -88,16 +88,23 @@ class App < Rack::App
     @old_name = payload['old_name'].to_s
     @typ = payload['typ']
     @lang = payload['lang']
-
     @fparams = payload['message'].to_s
-    if File.exist?("templates/#{@typ}_#{@lang}.json")
-    file = File.rename("templates/#{@old_name}.json","templates/#{@typ}_#{@lang}.json") 
+    # unless File.exist?("templates/#{@typ}_#{@lang}.json")
+    # file = File.rename("templates/#{@old_name}.json","templates/#{@typ}_#{@lang}.json") 
+    if @old_name == "#{@typ}_#{@lang}"
     file2 = File.open("templates/#{@typ}_#{@lang}.json","w")
     file2.write(@fparams)
     file2.close
     redirect_to "/templates"
-    else
+    elsif File.exist?("templates/#{@typ}_#{@lang}.json")
       redirect_to request.env["HTTP_REFERER"]
+    else
+      file = File.rename("templates/#{@old_name}.json","templates/#{@typ}_#{@lang}.json") 
+      file2 = File.open("templates/#{@typ}_#{@lang}.json","w")
+      file2.write(@fparams)
+      file2.close
+      redirect_to "/templates"
+      # redirect_to request.env["HTTP_REFERER"]
     end 
   end
 

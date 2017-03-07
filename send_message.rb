@@ -13,6 +13,7 @@ class SendMessage
            temp = File.read("templates/#{tip}_#{lang}.json")
            code = tempHash.code
            filtered_data = temp.gsub("[code]", "#{code}")
+           filtered_data = filtered_data.gsub("[tip]", "#{tip}")
            File.open("result_#{tip}_#{lang}.json","w") do |f|
           #  File.open("templates/#{tip}_#{lang}.json","w") do |f|
             f.write(filtered_data)
