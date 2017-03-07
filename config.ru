@@ -10,10 +10,18 @@ require './send_message'
 require 'erb'
 require 'rack/app/front_end'
 require 'bootstrap-sass'
+require 'pry'
+
 ROOT_PATH = Dir.pwd
 
 class App < Rack::App
   extend Rack::App::FrontEnd
+
+  payload do
+     parser do
+       accept :json, :www_form_urlencoded
+     end
+   end
 
   get '/' do
     render '/views/index.html.erb'
@@ -29,7 +37,7 @@ class App < Rack::App
       arr<<v
     end
     ex = SendMessage.detect(Template.new(arr[0],arr[1],arr[2],arr[3]))
-    # example: http://localhost:9393/test/?lang=ru&type=sms&phone_number=privet&code=uy
+    # example: http://localhost:9393/test/?lang=ru&typ=sms&phone_number=privet&code=uy
   end
 
   get '/templates' do
@@ -61,10 +69,9 @@ class App < Rack::App
   end
 
   get '/delete/:id' do
-    filename = params['id'].to_s
-    file_params = params['id'].split('_')
-    file = File.delete("templates/#{filename}.json") 
-    redirect_to '/'
+    filename =params['id'].to_s
+    file= File.delete("templates/#{filename}.json") 
+    redirect_to request.env["HTTP_REFERER"]
   end
 
   get '/edit_template/:id' do
@@ -98,20 +105,18 @@ class App < Rack::App
       end 
   end
 
-  get '/new' do
-   # file =File.read("sms_en.json")
-  end
-
-  payload do
-    parser do
-      accept :json, :www_form_urlencoded
+  post '/new' do
+  arr =[]
+    payload.each do |k,v|
+      arr<<v
     end
+    @ex = SendMessage.detect(Template.new(arr[0],arr[1],arr[2],arr[3])) 
   end
 
-  use Rack::Auth::Basic do |username, password|
-    username == 'maksim'
-    password == 'secret'
-  end
+  # use Rack::Auth::Basic do |username, password|
+  #   username == 'maksim'
+  #   password == 'secret'
+  # end
 
   post '/create' do 
     @typ = payload['typ']
