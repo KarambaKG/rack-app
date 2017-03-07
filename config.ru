@@ -106,11 +106,7 @@ class App < Rack::App
   end
 
   post '/new' do
-  arr =[]
-    payload.each do |k,v|
-      arr<<v
-    end
-    @ex = SendMessage.detect(Template.new(arr[0],arr[1],arr[2],arr[3])) 
+    @message_saver = SendMessage.detect(payload) 
   end
 
   # use Rack::Auth::Basic do |username, password|

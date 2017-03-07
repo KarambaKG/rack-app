@@ -8,15 +8,15 @@ class SendMessage
    @result = result
   end
   def self.detect(tempHash)
-   tip = tempHash.typ
-   lang = tempHash.lang
+   tip = tempHash['typ']
+   lang = tempHash['lang']
    temp = File.read("templates/#{tip}_#{lang}.json")
-   code = tempHash.code
-   filtered_data = temp.gsub("[code]", "#{code}")
-   filtered_data = filtered_data.gsub("[tip]", "#{tip}")
+   code = tempHash['code']
+   map = {"[code]"=> "#{code}", "[tip]"=> "#{tip}"}
+   map.each {|k,v| temp.sub!(k,v)}
    File.open("result_#{tip}_#{lang}.json","w") do |f|
-    f.write(filtered_data)
+    f.write(temp)
    end
-    return filtered_data
+    return temp
   end
 end

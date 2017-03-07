@@ -1,11 +1,13 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    autoprefixer-rails (6.7.3)
+    autoprefixer-rails (6.7.6)
       execjs
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
+    byebug (9.0.6)
+    coderay (1.1.1)
     execjs (2.7.0)
     method_source (0.8.2)
     pry (0.10.4)
@@ -16,7 +18,7 @@ GEM
       byebug (~> 9.0)
       pry (~> 0.10)
     rack (2.0.1)
-    rack-app (5.12.0)
+    rack-app (6.1.0)
       rack
     rack-app-front_end (0.19.0)
       rack-app (>= 2.0.0)
@@ -30,13 +32,9 @@ PLATFORMS
 
 DEPENDENCIES
   bootstrap-sass
-<<<<<<< HEAD
-=======
-  dotenv
   pry-byebug
->>>>>>> #2 sending params from console app and save to text file is implemented
   rack-app
   rack-app-front_end
 
 BUNDLED WITH
-   1.14.3
+   1.13.6
