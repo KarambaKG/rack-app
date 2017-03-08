@@ -64,7 +64,7 @@
 		      <p>Окно редактирования шаблонов содержит следующие поля и настройки: Текст сообщения - содержание сообщения, а так же можно удалять сообщения.</p>
 		      <hr>
 	      <div id="add_template_type">         
-	        <% @sort.uniq.each do |item| %>
+	        <% @sort_button.uniq.each do |item| %>
 	        <div class="btn btn-info"><a href="/templates/<%= item %>">sort by <%="#{item}"%></a></div>
 	        <%end%>
 	         <div class="btn btn-info"><a href="/templates">All Templates</a></div>
