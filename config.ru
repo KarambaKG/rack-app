@@ -13,8 +13,6 @@ require 'bootstrap-sass'
 require 'pry'
 require './metods'
 
-ROOT_PATH = Dir.pwd
-
 class App < Rack::App
   extend Rack::App::FrontEnd
 
