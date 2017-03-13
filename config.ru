@@ -1,23 +1,23 @@
 require 'rubygems'
-require 'bundler/setup'
 require 'rack'
 require 'json'
 require 'net/http'
 require 'uri'
 require 'rack/app'
-require './template'
-require './send_message'
 require 'erb'
 require 'rack/app/front_end'
 require 'bootstrap-sass'
 require 'pry'
+require './template'
+require './send_message'
 require './metods'
 
 class App < Rack::App
   extend Rack::App::FrontEnd
 
   def initialize
-    @metods = Metods.new  
+    pwd = "#{Dir.pwd}/templates"
+    @metods = Metods.new(pwd)
   end
 
   payload do
@@ -45,6 +45,7 @@ class App < Rack::App
 
   get '/templates' do
     @templates = @metods.all_templates
+
     @sort_button = @metods.give_buttons
     render '/views/templates.html.erb'
   end

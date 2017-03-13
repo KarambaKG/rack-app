@@ -1,6 +1,10 @@
 ROOT_PATH = Dir.pwd
 class Metods
 
+  def initialize(template_path)
+    @template_path = template_path
+  end
+
 	def give_buttons
     template_sort = all_templates
     buttons = []
@@ -27,31 +31,40 @@ class Metods
   end
 
 	def all_templates
-    templates = Dir["templates/*.json"].select{ |f| File.file? f }.map{ |f| File.basename f ,'.json'}
+    full_path = "#{@template_path}/*.json"
+    template_files = Dir[full_path].select{ |f| File.file? f }
+    template_files.map{ |f| File.basename f ,'.json'}
   end
 
   def templates_by_type(template_type)
-    templates = Dir["templates/#{template_type}_*.json"].select{ |f| File.file? f }.map{ |f| File.basename f ,'.json'}
+    full_path = "#{@template_path}/#{template_type}_*.json"
+    templates = Dir[full_path].select{ |f| File.file? f }.map{ |f| File.basename f ,'.json'}
   end
 
   def read_file(filename)
-    file = File.read( File.join(ROOT_PATH,"templates","#{filename}.json") )
+    full_path = File.join(@template_path,"#{filename}.json")
+    file = File.read(full_path)
   end
 
   def delete_file(filename)
-    file= File.delete("templates/#{filename}.json")
+    full_path = "#{@template_path}/#{filename}.json"
+    file = File.delete(full_path)
   end
 
   def file_open(filename)
-   file_edit = File.open("templates/#{filename}.json","w") 
+    full_path = "#{@template_path}/#{filename}.json"
+    file_edit = File.open(full_path)
   end
 
   def file_exist(filename)
-    File.exist?("templates/#{filename}.json")    
+    full_path = "#{@template_path}/#{filename}.json"
+    File.exist?(full_path)
   end
 
   def rename_file(old_name, new_name)
-    file = File.rename("templates/#{old_name}.json","templates/#{new_name}.json")
+    full_path_old = "#{@template_path}/#{old_name}.json"
+    full_path_new = "#{@template_path}/#{new_name}.json"
+    file = File.rename(full_path_old,full_path_new)
   end
 
 end
