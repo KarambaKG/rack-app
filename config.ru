@@ -84,7 +84,9 @@ class App < Rack::App
   end
 
   post '/new' do
-    @message_saver = SendMessage.detect(payload) 
+
+    @message_saver = SendMessage.detect(payload)
+    'ok'
   end
 
   # use Rack::Auth::Basic do |username, password|
