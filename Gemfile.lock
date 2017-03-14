@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    autoprefixer-rails (6.7.6)
+    autoprefixer-rails (6.7.7)
       execjs
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)

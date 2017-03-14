@@ -31,8 +31,14 @@ describe  Metods do
     old_file_directory = @file_directory
     new_file_directory = "#{@test_templates_path}/sms5_en.json"
     allow(File).to receive(:rename).with(old_file_directory, new_file_directory).and_return(new_file_directory)
-    file = @metods.rename_file("sms1_en", "sms5_en")
-    expect(file).to eql(new_file_directory)
+    expect(@metods.file_rename("sms1_en", "sms5_en")).to eql(true)
+  end
+
+  it 'ошибка при переименовать файл' do
+    old_file_directory = @file_directory
+    new_file_directory = "#{@test_templates_path}/sms5_en.json"
+    # allow(File).to receive(:rename).with('1', new_file_directory).and_return(new_file_directory)
+    expect{ raise @metods.file_rename("1", "sms5_en") }.to raise_error('File not exist')
   end
 
   it 'должен удалить файл' do
@@ -42,9 +48,9 @@ describe  Metods do
   end
 
   it 'должен открыть файл' do
-    allow(File).to receive(:open).with(@file_directory).and_return("Ok google")
-    file = @metods.file_open("sms1_en")
-    expect(file).to eql("Ok google")
+    allow(File).to receive(:open).with(@file_directory, 'w+').and_return(false)
+    file = @metods.file_rewrite("sms1_en", "w+")
+    expect(file).to eql(false)
   end
 
   it 'должен проверить существует ли файл' do
@@ -53,10 +59,20 @@ describe  Metods do
     expect(file).to eql("sms1_en")
   end
 
-  it 'должен показывать все кнопки' do
-    allow(@metods).to receive(:give_buttons).and_return(['a','b'])
-    button = @metods.give_buttons
-    expect(button).to eql(['a','b'])
+  it 'должен обновить шаблон' do
+    old_name = "sms1_en"
+    typ = "sms1"
+    lang = "en"
+    fparams = "Ok google"
+    filename = "#{typ}_#{lang}"
+    # allow(@metods).to receive(:file_open).with(filename).and_return("Ok google")
+    #
+    # allow(@metods).to receive(:write).with(fparams).end_return("Message Hello")
+
+    k = @metods.update_template(old_name, typ, lang, fparams)
+    k
+    # open_file = @metods.file_open("sms1_en", fparams)
+    # expect(open_file).to eql("Ok google")
   end
 
 end

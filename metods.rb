@@ -16,18 +16,22 @@ class Metods
   end
 
   def update_template(old_name, typ, lang, fparams)
-    filename = "#{typ}_#{lang}"
-    if old_name == filename
-      file_edit = file_open(filename)
+    new_filename = "#{typ}_#{lang}"
+    if old_name == new_filename
+      file_edit = file_open(new_filename)
       file_edit.write(fparams)
       file_edit.close
-      elsif file_exist(filename)
-      else
-        file = rename_file(old_name, filename) 
-        file_edit = file_open(filename)
-        file_edit.write(fparams)
-        file_edit.close
-      end
+      # file_rewrite(new_filename, fparams)
+    elsif file_exist(new_filename)
+    else
+      file_rename(old_name, new_filename)
+      file_rewrite(new_filename, fparams)
+    end
+  end
+
+  def file_open(filename)
+    full_path = "#{@template_path}/#{filename}.json"
+    file_edit = File.open(full_path, "w")
   end
 
 	def all_templates
@@ -51,20 +55,40 @@ class Metods
     file = File.delete(full_path)
   end
 
-  def file_open(filename)
+  def file_rewrite(filename, text)
+    text = "#{@fparams}"
     full_path = "#{@template_path}/#{filename}.json"
-    file_edit = File.open(full_path)
+    File.open(full_path, 'w+') do |file|
+      file.write(text)
+      file.close
+    end
+
+    # f = File.open(full_path, 'w+'){|f| f.read}
+    # f == text ? true : false
   end
+
+  # def file_rewrite(filename, text)
+  #   full_path = "#{@template_path}/#{filename}.json"
+  #   f = File.open(full_path, 'w+'){|f| f.read}
+  #   f == text ? true : false
+  #   f.write(text)
+  # end
+
 
   def file_exist(filename)
     full_path = "#{@template_path}/#{filename}.json"
     File.exist?(full_path)
   end
 
-  def rename_file(old_name, new_name)
+  def file_rename(old_name, new_name)
     full_path_old = "#{@template_path}/#{old_name}.json"
     full_path_new = "#{@template_path}/#{new_name}.json"
-    file = File.rename(full_path_old,full_path_new)
+    begin
+      file = File.rename(full_path_old,full_path_new)
+      true
+    rescue => e
+      Exception.new('File not exist')
+    end
   end
 
 end
