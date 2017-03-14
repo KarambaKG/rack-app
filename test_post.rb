@@ -6,7 +6,7 @@ def create_agent
 	    uri = URI('http://0.0.0.0:9292/new')
 	    http = Net::HTTP.new(uri.host, uri.port)
 	    req = Net::HTTP::Post.new(uri.path, 'Content-Type' => 'application/json')
-	    req.body = {'lang' => 'en', 'typ' => 'sms','phone_number'=> '232323','code' => '654321'}.to_json
+	    req.body = {'lang' => 'us', 'typ' => 'email','phone_number'=> '232323','code' => 'maxim'}.to_json
 	    res = http.request(req)
 	    return res
 	rescue => e
