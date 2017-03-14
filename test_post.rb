@@ -3,7 +3,7 @@ require 'json'
 
 def create_agent
 	begin
-	    uri = URI('http://0.0.0.0:9292/new')
+	    uri = URI('http://192.168.40.90:9292/new')
 	    http = Net::HTTP.new(uri.host, uri.port)
 	    req = Net::HTTP::Post.new(uri.path, 'Content-Type' => 'application/json')
 	    req.body = {'lang' => 'us', 'typ' => 'email','phone_number'=> '232323','code' => 'maxim'}.to_json
