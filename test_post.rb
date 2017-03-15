@@ -1,6 +1,6 @@
 require 'net/http'
 require 'json'
-require 'byebug'
+
 
 def create_agent	
 	
