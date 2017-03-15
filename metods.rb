@@ -53,7 +53,7 @@ class Metods
 
   def file_open(filename)
     full_path = "#{@template_path}/#{filename}.json"
-    file_edit = File.open(full_path)
+    file_edit = File.open(full_path,"w+")
   end
 
   def file_exist(filename)

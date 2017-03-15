@@ -12,7 +12,7 @@ class SendMessage
    lang = tempHash['lang']
    temp = File.read("templates/#{tip}_#{lang}.json")
    code = tempHash['code']
-   map = {"[code]"=> "#{code}", "[tip]"=> "#{tip}"}
+   map = {"[code]"=> "#{code}", "[tip]"=> "#{tip}","[tmppwd]" => "#{code}"}
    map.each {|k,v| temp.sub!(k,v)}
    File.open("result_#{tip}_#{lang}.json","w") do |f|
     f.write(temp)

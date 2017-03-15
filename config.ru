@@ -84,7 +84,6 @@ class App < Rack::App
   end
 
   post '/new' do
-
     @message_saver = SendMessage.detect(payload)
     'ok'
   end
