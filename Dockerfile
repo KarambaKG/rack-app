@@ -7,6 +7,5 @@ RUN git clone https://github.com/KarambaKG/rack-app.git -b omka
 
 WORKDIR /rack-app
 
-#CMD ruby test_post.rb "192" "168" "40" "63"
 
 RUN echo "Создал образ консольного приложения"
