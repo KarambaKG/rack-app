@@ -17,6 +17,7 @@ class App < Rack::App
 
   def initialize
     pwd = "#{Dir.pwd}/templates"
+    # pwd = "#{Dir.pwd}/spec/fixtures/templates"
     @metods = Metods.new(pwd)
   end
 
@@ -110,5 +111,6 @@ class App < Rack::App
   end
 
 end
+
 
 run App
