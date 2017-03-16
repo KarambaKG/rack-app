@@ -76,9 +76,9 @@
 						<% @templates.each do |file| %>
 						<%= file %>
 	          <% item=file.split('_').first%> <br>
-	            <div class="btn btn-info"><a href="/edit_template/<%= file %>">edit</a></div>
-							<div class="btn btn-info"><a href="/show/<%= file %>">show</a></div>
-							<div class="btn btn-danger btn-sm"><a href="/delete/<%= file %>">delete</a></div>
+	            <div class="btn btn-info separate"><a href="/edit_template/<%= file %>">Редактировать</a></div>
+							<div class="btn btn-info separate"><a href="/show/<%= file %>">show</a></div>
+							<div class="btn btn-danger btn-sm separate"><a href="/delete/<%= file %>">delete</a></div>
 	            <br>
 						<%end%> <br>
 					</div>   
