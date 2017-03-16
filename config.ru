@@ -52,7 +52,7 @@ class App < Rack::App
 
   get '/templates/:id' do     
     @templates = @metods.templates_by_type(params['id'])
-    @sort_button = give_buttons
+    @sort_button = @metods.give_buttons
     render '/views/templates.html.erb'
   end
 

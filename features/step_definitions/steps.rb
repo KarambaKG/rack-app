@@ -1,3 +1,9 @@
 When(/^админ на главной странице$/) do
-  visit 'http://127.0.0.1:9292/'
+  visit 'localhost:9292/'
+  sleep (4)
+end
+
+When(/^кликаю на ссылку "([^"]*)"$/) do |link|
+  click_link link
+  sleep(0.5)
 end
