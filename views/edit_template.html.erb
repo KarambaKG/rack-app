@@ -46,7 +46,7 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href='/'>На главную</a></li>
-        <li class="active"><a href='/templates'>Temlates</a></li>        
+        <li class="active"><a href='/templates'>Шаблоны</a></li>
       </ul>
     </div>
   </div>
@@ -57,7 +57,7 @@
   	<form action="/edit" method="post" data-success="edit template created!!!" class="form-horizontal">
       
       <div class="form-group">
-      <label class="control-label col-sm-2" for="type">Template type:</label>
+      <label class="control-label col-sm-2" for="type">Тип шаблона:</label>
         <div class="col-sm-4">
           <input type="text" name="typ" class="form-control" placeholder="Enter type" value="<%=@typ%>">
           <input type="hidden" name="old_name" class="form-control" value="<%=@old_name%>">
@@ -65,14 +65,14 @@
       </div>
 
       <div class="form-group">
-      <label class="control-label col-sm-2" for="type">Template language:</label>
+      <label class="control-label col-sm-2" for="type">Язык шаблона:</label>
         <div class="col-sm-4">
           <input type="text" name="lang" class="form-control" placeholder="Enter language" value="<%=@lang%>">
         </div>
       </div>
 
       <div class="form-group">
-      <label class="control-label col-sm-2" for="type">Template massage:</label>
+      <label class="control-label col-sm-2" for="type">Сообщение шаблона:</label>
 
         <div class="col-sm-9">
           <textarea type="text" name="message" class="form-control" placeholder="Enter message" value=""><%= @fparams %></textarea>
@@ -80,9 +80,9 @@
         </div>
       </div>
 
-    <h4>template example: {"message" : "OpenWallet. - confirmation code  [code] do not share this code "} <br></h4> 
+    <h4>Пример шаблона: {"message" : "OpenWallet. - confirmation code  [code] do not share this code "} <br></h4>
     
-    <input class="btn btn-success" type="submit" value="Update Template">
+    <input class="btn btn-success" type="submit" value="Обновить Шаблон">
         
   	</form>
   </div>

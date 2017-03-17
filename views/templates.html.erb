@@ -47,7 +47,6 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href="/">На Главную</a></li>
-        <li><a href='/templates'>Templates</a></li>
       </ul>
 <!--       <ul class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
@@ -65,20 +64,20 @@
 		      <hr>
 	      <div id="add_template_type">         
 	        <% @sort_button.uniq.each do |item| %>
-	        <div class="btn btn-info"><a href="/templates/<%= item %>">sort by <%="#{item}"%></a></div>
+	        <div class="btn btn-info"><a href="/templates/<%= item %>">сортировать по <%="#{item}"%></a></div>
 	        <%end%>
-	         <div class="btn btn-info"><a href="/templates">All Templates</a></div>
+	         <div class="btn btn-info"><a href="/templates">Все шаблоны</a></div>
 	      </div> <br>
 
 				<div class="col-sm-6 col-md-6 ">
-				  <div class="btn btn-success"><a href="/new_template">add new template</a></div>
+				  <div class="btn btn-success"><a href="/new_template">Добавить Шаблон</a></div>
 	        <div class="field">
 						<% @templates.each do |file| %>
 						<%= file %>
 	          <% item=file.split('_').first%> <br>
 	            <div class="btn btn-info separate"><a href="/edit_template/<%= file %>">Редактировать</a></div>
-							<div class="btn btn-info separate"><a href="/show/<%= file %>">show</a></div>
-							<div class="btn btn-danger btn-sm separate"><a href="/delete/<%= file %>">delete</a></div>
+							<div class="btn btn-info separate"><a href="/show/<%= file %>">Посмотреть</a></div>
+							<div class="btn btn-danger btn-sm separate"><a href="/delete/<%= file %>">Удалить</a></div>
 	            <br>
 						<%end%> <br>
 					</div>   
@@ -88,7 +87,7 @@
 </div>
 
 <footer class="container-fluid text-center">
-  <p>Templates</p>
+  <p>Все Шаблоны</p>
 </footer>
 
 </body>

@@ -6,7 +6,7 @@ require 'rspec'
 describe  Metods do
 
   before :each do
-    @test_templates_path = "#{Dir.pwd}/spec/fixtures/templates_test"
+    @test_templates_path = "#{Dir.pwd}/spec/fixtures/templates"
     @metods = Metods.new(@test_templates_path)
     @file_directory = "#{@test_templates_path}/sms1_en.json"
   end
