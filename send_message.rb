@@ -17,12 +17,7 @@ class SendMessage
     rescue => error
       print "Присланный json не соответствует шаблонам на web-сервере. Добавьте новый шаблон в админке, чтобы обработать присланные параметры."
     end
-    hash = {}
-    tempHash.each do |k,v|
-      map = {"[#{k}]"=> "#{v}"}
-      hash = hash.merge(map)
-    end
-    hash.each {|k,v| temp.gsub!(k,v)}
+    tempHash.each {|k,v| temp.gsub!("[#{k}]",v)}
     File.open("result_#{tip}_#{lang}.json","w") do |f|
       f.write(temp)
       print "Сообщение с присланными параметрами успешно сохранено. "
