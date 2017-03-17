@@ -19,7 +19,9 @@ class Metods
     new_filename = "#{typ}_#{lang}"
     if old_name == new_filename
       file_edit = file_open(new_filename)
-      file_edit.write(fparams)
+      messageformer = "{\"message\" : \"#{fparams}\"}"
+      file_edit << messageformer
+      # file_edit.write(fparams)
       file_edit.close
       # file_rewrite(new_filename, fparams)
     elsif file_exist(new_filename)
