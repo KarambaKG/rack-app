@@ -71,7 +71,9 @@ class App < Rack::App
     @typ = @edit_params.first
     @lang = @edit_params.last
     @old_name = params['id']
-    @fparams = @metods.read_file(params['id'])
+    @sparams = @metods.read_file(params['id'])
+    @dparams = JSON.parse(@sparams)
+    @fparams = @dparams['message']
     render '/views/edit_template.html.erb'
   end
 
@@ -98,10 +100,11 @@ class App < Rack::App
   post '/create' do 
     @typ = payload['typ']
     @lang = payload['lang']
-    @message = payload['message'].to_s
+    @message = {"/"message" : #{payload['message'].to_s}"}
     filename = "#{@typ}_#{@lang}"
       unless @metods.file_exist(filename)
       file = @metods.file_open(filename)
+       # @message
       file << @message
       file.close
       redirect_to "/templates"  
