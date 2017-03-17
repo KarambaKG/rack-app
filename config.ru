@@ -74,7 +74,7 @@ class App < Rack::App
     @sparams = @metods.read_file(params['id'])
     @dparams = JSON.parse(@sparams)
     @fparams = @dparams['message']
-    render '/views/edit_template.html.erb'
+     render '/views/edit_template.html.erb'
   end
 
   post '/edit' do
@@ -100,12 +100,12 @@ class App < Rack::App
   post '/create' do 
     @typ = payload['typ']
     @lang = payload['lang']
-    @message = {"/"message" : #{payload['message'].to_s}"}
+    @message = payload['message'].to_s
     filename = "#{@typ}_#{@lang}"
       unless @metods.file_exist(filename)
       file = @metods.file_open(filename)
-       # @message
-      file << @message
+      messageformer = "{\"message\" : \"#{@message}\"}"
+      file << messageformer
       file.close
       redirect_to "/templates"  
       else
