@@ -27,12 +27,17 @@
       padding: 15px;
     }
 
+    .btn.btn-sort {
+      background-color: #e6e8ea;
+    }
+
     @media screen and (max-width: 767px) {
       .sidenav {
         height: auto;
         padding: 15px;
       }
-      .row.content {height:auto;} 
+      .row.content {height:auto;
+      }
     }
   </style>
   <nav class="navbar navbar-inverse">
@@ -64,7 +69,7 @@
 		      <hr>
 	      <div id="add_template_type">         
 	        <% @sort_button.uniq.each do |item| %>
-	        <div class="btn btn-info"><a href="/templates/<%= item %>">сортировать по <%="#{item}"%></a></div>
+	        <div class="btn btn-sort"><a href="/templates/<%= item %>">сортировать по <%="#{item}"%></a></div>
 	        <%end%>
 	         <div class="btn btn-info"><a href="/templates">Все шаблоны</a></div>
 	      </div> <br>
