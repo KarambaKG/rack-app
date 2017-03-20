@@ -7,7 +7,7 @@ def create_agent
 	http = Net::HTTP.new(uri.host, uri.port)
 	req = Net::HTTP::Post.new(uri.path, 'Content-Type' => 'application/json')
 
-	req.body = {'lang' => 'BBBB', 'typ' => 'BBBB', 'CODE' => '11hghg2'}.to_json
+	req.body = {'lang' => 'ru', 'typ' => 'restore',  'CODE' => '123456789' , 'name' => 'Миша'}.to_json
 	res = http.request(req)
 	if res.kind_of? Net::HTTPSuccess
 		p "JSON параметры успешно отправлены"

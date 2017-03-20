@@ -17,7 +17,6 @@ class App < Rack::App
 
   def initialize
     pwd = "#{Dir.pwd}/templates"
-    # pwd = "#{Dir.pwd}/spec/fixtures/templates"
     @metods = Metods.new(pwd)
   end
 
@@ -33,15 +32,6 @@ class App < Rack::App
 
   get '/new_template' do
     render '/views/new_template.html.erb'
-  end
-
-  get '/test' do
-    arr = []
-    params.each do |k,v|
-      arr << v
-    end
-    ex = SendMessage.detect(Template.new(arr[0],arr[1],arr[2],arr[3]))
-    # example: http://localhost:9393/test/?lang=ru&typ=sms&phone_number=privet&code=uy
   end
 
   get '/templates' do

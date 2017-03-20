@@ -1,5 +1,5 @@
 ROOT_PATH = Dir.pwd
-class Metods
+class Metods#templateBuilder fileOperator
 
   def initialize(template_path)
     @template_path = template_path
@@ -94,4 +94,3 @@ class Metods
   end
 
 end
-
