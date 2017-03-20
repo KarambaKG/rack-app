@@ -1,7 +1,6 @@
-require 'rack'
-require 'json'
-require './template'
-require 'erb'
+# require 'rack'
+# require 'json'
+# require 'erb'
 
 class SendMessage
 
