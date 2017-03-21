@@ -1,4 +1,4 @@
-ROOT_PATH = Dir.pwd + '/lib/server/templates'
+# ROOT_PATH = Dir.pwd + '/lib/server/templates'
 class TemplateBuilder
 
   def initialize(template_path)
