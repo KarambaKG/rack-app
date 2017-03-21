@@ -1,4 +1,3 @@
-ROOT_PATH = Dir.pwd + '/lib/server/templates'
 class FileOperator
 
   def initialize(template_path)
@@ -21,10 +20,10 @@ class FileOperator
   end
 
   def self.file_rewrite(filename, text)
-    text = "#{@fparams}"
     full_path = ROOT_PATH + "/#{filename}.json"
     File.open(full_path, 'w+') do |file|
-      file.write(text)
+      messageformer = "{\"message\" : \"#{text}\"}"
+      file << messageformer
       file.close
     end
   end

@@ -43,7 +43,6 @@ class TemplateMessenger < Rack::App
   end
 
   get '/edit_template/:id' do
-    # byebug
     @name_template = params['id'].split('_')
     @typ = @name_template.first
     @lang = @name_template.last
