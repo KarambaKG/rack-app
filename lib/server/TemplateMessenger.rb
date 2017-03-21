@@ -3,8 +3,8 @@ class TemplateMessenger < Rack::App
 
   def initialize
     pwd = "#{Dir.pwd}/lib/server/templates"
-    @templateBuilder = TemplateBuilder.new(pwd)
-    @fileOperator = FileOperator.new(pwd)
+    @templateBuilder = TemplateBuilder.new
+    @file_operator = FileOperator.new(pwd)
   end
 
   payload do
@@ -34,11 +34,11 @@ class TemplateMessenger < Rack::App
   end
 
   get '/show/:id' do
-    @file = FileOperator.read_file(params['id'])
+    @file = @templateBuilder.give_template(params['id'])
   end
 
   get '/delete/:id' do
-    @file = @fileOperator.delete_file(params['id'])
+    @file = @file_operator.delete_file(params['id'])
     redirect_to request.env["HTTP_REFERER"]
   end
 
@@ -47,7 +47,7 @@ class TemplateMessenger < Rack::App
     @typ = @name_template.first
     @lang = @name_template.last
     @old_name = params['id']
-    @file_content = FileOperator.read_file(params['id'])
+    @file_content = @file_operator.read_file(params['id'])
     @parse_file_content = JSON.parse(@file_content)
     @fparams = @parse_file_content['message']
     render '/lib/server/views/edit_template.html.erb'
@@ -63,7 +63,6 @@ class TemplateMessenger < Rack::App
   end
 
   post '/new' do
-
     @message_saver = SendMessage.detect(payload)
     'ok'
   end
@@ -73,8 +72,8 @@ class TemplateMessenger < Rack::App
     @lang = payload['lang']
     @message = payload['message'].to_s
     filename = "#{@typ}_#{@lang}"
-    unless FileOperator.file_exist(filename)
-      file = FileOperator.file_open(filename)
+    unless @file_operator.file_exist(filename)
+      file = @file_operator.file_open(filename)
       messageformer = "{\"message\" : \"#{@message}\"}"
       file << messageformer
       file.close

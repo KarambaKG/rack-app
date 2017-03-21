@@ -4,13 +4,13 @@ class FileOperator
     @template_path = template_path
   end
 
-  def self.file_open(filename)
-    full_path = ROOT_PATH + "/#{filename}.json"
+  def file_open(filename)
+    full_path = @template_path + "/#{filename}.json"
     file_edit = File.open(full_path, "w")
   end
 
-  def self.read_file(filename)
-    full_path = File.join(ROOT_PATH + "/#{filename}.json")
+  def read_file(filename)
+    full_path = File.join(@template_path+ "/#{filename}.json")
     file = File.read(full_path)
   end
 
@@ -19,8 +19,8 @@ class FileOperator
     file = File.delete(full_path)
   end
 
-  def self.file_rewrite(filename, text)
-    full_path = ROOT_PATH + "/#{filename}.json"
+  def file_rewrite(filename, text)
+    full_path = @template_path + "/#{filename}.json"
     File.open(full_path, 'w+') do |file|
       messageformer = "{\"message\" : \"#{text}\"}"
       file << messageformer
@@ -28,9 +28,9 @@ class FileOperator
     end
   end
 
-  def self.file_rename(old_name, new_name)
-    full_path_old = ROOT_PATH + "/#{old_name}.json"
-    full_path_new = ROOT_PATH + "/#{new_name}.json"
+  def file_rename(old_name, new_name)
+    full_path_old = @template_path + "/#{old_name}.json"
+    full_path_new = @template_path + "/#{new_name}.json"
     begin
       file = File.rename(full_path_old,full_path_new)
       true
@@ -39,8 +39,8 @@ class FileOperator
     end
   end
 
-  def self.file_exist(filename)
-    full_path = ROOT_PATH + "/#{filename}.json"
+  def file_exist(filename)
+    full_path = @template_path + "/#{filename}.json"
     File.exist?(full_path)
   end
 
