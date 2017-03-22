@@ -1,6 +1,5 @@
 require 'net/http'
 require 'json'
-require 'pry'
 
 def create_agent
 	ip_address = ARGV[1]
