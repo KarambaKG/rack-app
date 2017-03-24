@@ -5,6 +5,7 @@ class TemplateMessenger < Rack::App
     pwd = "#{Dir.pwd}/lib/server/templates"
     @templateBuilder = TemplateBuilder.new
     @file_operator = FileOperator.new(pwd)
+    @message_builder = MessageBuilder.new
   end
 
   payload do
@@ -68,18 +69,10 @@ class TemplateMessenger < Rack::App
   end
 
   post '/create' do
-    @typ = payload['typ']
-    @lang = payload['lang']
-    @message = payload['message'].to_s
-    filename = "#{@typ}_#{@lang}"
-    unless @file_operator.file_exist(filename)
-      file = @file_operator.file_open(filename)
-      messageformer = "{\"message\" : \"#{@message}\"}"
-      file << messageformer
-      file.close
-      redirect_to '/templates'
+    if @message_builder.render_message(payload) == true
+    redirect_to '/templates'
     else
-      redirect_to request.env["HTTP_REFERER"]
+    redirect_to request.env["HTTP_REFERER"]
     end
   end
 

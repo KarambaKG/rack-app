@@ -10,6 +10,7 @@ require 'bootstrap-sass'
 require 'pry'
 
 require_relative './lib/server/TemplateMessenger'
+require_relative './lib/server/MessageBuilder'
 require_relative './lib/server/TemplateBuilder'
 require_relative './lib/server/FileOperator'
 require_relative './lib/server/template'
